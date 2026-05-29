@@ -1,0 +1,558 @@
+{
+  "name": "My workflow 2",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "inquiry",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "b42b9cff-00d8-4ebe-bac3-ab5af6a1120a",
+      "name": "Webhook",
+      "webhookId": "644f0b09-3194-4237-8191-75b16a7462d3"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c36c7b2a-a1ad-430d-bc83-424d8631db94",
+              "name": "referenceID",
+              "value": "=INQ-{{ $execution.id }}",
+              "type": "string"
+            },
+            {
+              "id": "2bfdf065-7b41-4af8-963c-fa055fdf5290",
+              "name": "priority",
+              "value": "={{ $json.body.budget >= 5000 ? 'High Priority' : 'Standard'}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        400,
+        -32
+      ],
+      "id": "4b653d82-93f6-4b4d-be42-c9fc80f3dd44",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "16rV5feQ3t8zaBSlWDBuxNwUSVt15XYS-1EtTjmiA0U8",
+          "mode": "list",
+          "cachedResultName": "Aahaas Travel Inquiries",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/16rV5feQ3t8zaBSlWDBuxNwUSVt15XYS-1EtTjmiA0U8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/16rV5feQ3t8zaBSlWDBuxNwUSVt15XYS-1EtTjmiA0U8/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ $('Webhook').item.json.body.name }}",
+            "Email": "={{ $('Webhook').item.json.body.email }}",
+            "Destination": "={{ $('Webhook').item.json.body.destination }}",
+            "Travel Date": "={{ $('Webhook').item.json.body.travelDate }}",
+            "Travelers": "={{ $('Webhook').item.json.body.travelers }}",
+            "Budget": "={{ $('Webhook').item.json.body.budget }}",
+            "Notes": "={{ $('Webhook').item.json.body.notes }}",
+            "Reference ID": "={{ $json.referenceID }}",
+            "Priority": "={{ $json.priority }}"
+          },
+          "matchingColumns": [
+            "Priority"
+          ],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Destination",
+              "displayName": "Destination",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Travel Date",
+              "displayName": "Travel Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Travelers",
+              "displayName": "Travelers",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Budget",
+              "displayName": "Budget",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Notes",
+              "displayName": "Notes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Reference ID",
+              "displayName": "Reference ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Priority",
+              "displayName": "Priority",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        640,
+        0
+      ],
+      "id": "7e87cb4e-d2fe-4e0e-8cc9-2dd13f2f01f1",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "jQYSVOiqycBwSxG3",
+          "name": "Google Sheets account"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "fromEmail": "malith2jayasinghe@gmail.com",
+        "toEmail": "malith2jayasinghe@gmail.com",
+        "subject": "=New Travel Inquiry:  {{ $('Edit Fields').item.json.priority }} - {{ $('Webhook').item.json.body.destination }}",
+        "emailFormat": "text",
+        "text": "=Hello Aahaas Team,\n\nWe have a new travel inquiry!\n\n--- AI Summary (Powered by Gemini) ---\n\n{{ $json.content.parts[0].text }}\n\nName : {{ $('Webhook').item.json.body.name }}\nEmail : {{ $('Webhook').item.json.body.email }}\nDestination : {{ $('Webhook').item.json.body.destination }}\nBudget : {{ $('Webhook').item.json.body.budget }}\nPriority : {{ $('Edit Fields').item.json.priority }}\nReferenceID : {{ $('Edit Fields').item.json.referenceID }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        1216,
+        -320
+      ],
+      "id": "bc229e37-1407-40ea-ba49-745936a9a286",
+      "name": "Send an Email",
+      "webhookId": "ad10ba84-749b-42f4-a398-fd952575c2ab",
+      "credentials": {
+        "smtp": {
+          "id": "uxkeKJakIiWS2BO8",
+          "name": "SMTP account"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "fb05a2de-c4a6-48ba-a57d-d387c96401dd",
+              "name": "status",
+              "value": "success",
+              "type": "string"
+            },
+            {
+              "id": "02142ec0-5f1c-4836-8f15-5d157705b0ce",
+              "name": "message",
+              "value": "Thank you! Your travel inquiry has been received. Our team will review your details and contact you shortly.",
+              "type": "string"
+            },
+            {
+              "id": "9eaa7053-6578-425c-a03c-87cb0cc6bb1f",
+              "name": "referenceID",
+              "value": "={{ $('Edit Fields').item.json.referenceID }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1488,
+        -112
+      ],
+      "id": "71ed7d06-a148-4de1-9594-244fcec66525",
+      "name": "Success reponse"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "efdc8f12-813b-4289-ac3d-96b5c42e0bb5",
+              "name": "status",
+              "value": "error",
+              "type": "string"
+            },
+            {
+              "id": "6aa68c09-a0b2-4561-8e19-8359c42c4673",
+              "name": "message",
+              "value": "Sorry, our team is currently busy. Please try again in a few minutes.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1488,
+        112
+      ],
+      "id": "1749b8d8-4eb7-448c-9fcc-94c60908e1dc",
+      "name": "Error response"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-flash-latest",
+          "mode": "list",
+          "cachedResultName": "models/gemini-flash-latest"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are a travel agency assistant for Aahaas. Please write a professional, 2-sentence summary of this new lead for the sales team.\n\nDestination:  {{ $json.Destination }}\nBudget: {{ $json.Budget }}\nTravelers: {{ $json.Travelers }}\nNotes: {{ $json.Notes }}"
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1.2,
+      "position": [
+        832,
+        -176
+      ],
+      "id": "9007b0fd-21b5-4f83-8b28-df7bca447239",
+      "name": "Message a model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "2brLUR6DhURutoal",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "fromEmail": "malith2jayasinghe@gmail.com",
+        "toEmail": "malith2jayasinghe@gmail.com",
+        "subject": "=New Travel Inquiry:  {{ $('Edit Fields').item.json.priority }} - {{ $('Webhook').item.json.body.destination }}",
+        "emailFormat": "text",
+        "text": "=Hello Aahaas Team,\n\nWe have a new travel inquiry!\n\nName : {{ $('Webhook').item.json.body.name }}\nEmail : {{ $('Webhook').item.json.body.email }}\nDestination : {{ $('Webhook').item.json.body.destination }}\nBudget : {{ $('Webhook').item.json.body.budget }}\nPriority : {{ $('Edit Fields').item.json.priority }}\nReferenceID : {{ $('Edit Fields').item.json.referenceID }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        1216,
+        -64
+      ],
+      "id": "d6772d1f-9e25-42a6-b2d8-39380fa089b3",
+      "name": "fallback email",
+      "webhookId": "ad10ba84-749b-42f4-a398-fd952575c2ab",
+      "credentials": {
+        "smtp": {
+          "id": "uxkeKJakIiWS2BO8",
+          "name": "SMTP account"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "4abb9bd5-5479-4624-9876-2dd91fcd3821",
+              "leftValue": "={{ $json.body.email }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "ca5a404d-bd7d-494c-b86b-f940e13f6593",
+              "leftValue": "={{ $json.body.name }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "8c13b6eb-cebe-4dc6-aab2-49f8a0ca9365",
+              "leftValue": "={{ $json.body.destination }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "0eddbdca-ab27-4a0a-944f-f72ad50e7ae5",
+              "leftValue": "={{ $json.body.travelDate }}",
+              "rightValue": "",
+              "operator": {
+                "type": "dateTime",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "b2265a94-5960-4094-9cd0-63fb7c967fef",
+              "leftValue": "={{ $json.body.travelers }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "a2375486-4589-4148-9c72-7a9a69473452",
+              "leftValue": "={{ $json.body.budget }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        208,
+        96
+      ],
+      "id": "454c2f1f-8407-4744-85e9-4dcd4b864b55",
+      "name": "If"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Error response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send an Email": {
+      "main": [
+        [
+          {
+            "node": "Success reponse",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Error response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Send an Email",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "fallback email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "fallback email": {
+      "main": [
+        [
+          {
+            "node": "Success reponse",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Error response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Error response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "4309571c-c348-4510-b2e3-51afee73f253",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "f7f0dfa843eb769b5757c29ff440eff339d03dc3143256e4c1427b14e201771f"
+  },
+  "id": "p7845aCrLU6iAKXQ",
+  "tags": []
+}
