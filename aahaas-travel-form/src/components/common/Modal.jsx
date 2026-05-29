@@ -1,7 +1,6 @@
 import { useEffect, useRef, useCallback } from 'react';
 
 /**
- * Reusable accessible modal dialog.
  *
  * @param {Object} props
  * @param {boolean} props.isOpen — Whether the modal is visible.
